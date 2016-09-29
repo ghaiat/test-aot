@@ -92,7 +92,9 @@
         "check:target:ionic": "if [ ! -f client/scripts/${TARGET-app}/config.xml ]; then npm run error:not:ionic; fi",
         "check:target:fuse": "if [ ! -f client/scripts/${TARGET-app}/index.ux ]; then npm run error:not:fuse; fi",
         "check:already:built": "if [ ! -d dist/${TARGET-app}/${MODE-dev}/ ]; then npm run error:unbuilt; fi",
-        "check:ionic:platform": "if [ -z ${PLATFORM} ]; then error:missing:platform; elif [ ! -d dist/${TARGET-app}/${MODE-dev}/platforms/${PLATFORM} ]; then (OPERATION=add npm run ionic:platform); fi"
+        "check:ionic:platform": "if [ -z ${PLATFORM} ]; then error:missing:platform; elif [ ! -d dist/${TARGET-app}/${MODE-dev}/platforms/${PLATFORM} ]; then (OPERATION=add npm run ionic:platform); fi",
+
+        "ngc": "ngc -p tsconfig.aot.json --locale=en-US"
     },
     "dependencies": {
         "@angular/common": "2.0.0",
@@ -171,6 +173,7 @@
         "rollup-plugin-uglify": "^1.0.1",
         "sass-loader": "^4.0.2",
         "style-loader": "^0.13.0",
+        "to-string-loader": "^1.1.4",
         "ts-loader": "^0.8.1",
         "ts-node": "^1.3.0",
         "tsd": "^0.6.5",

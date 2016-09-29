@@ -143,11 +143,11 @@ module.exports = {
             // A special ts loader case for node_modules so we can ignore errors
             {
                 test: /\.ts$/,
-                loaders: ['awesome-typescript-loader', 'angular2-template-loader'],
+                loaders: ['angular2-template-loader', 'awesome-typescript-loader'],
                 include: [/node_modules/]
             }, {
                 test: /\.ts$/,
-                loaders: ['awesome-typescript-loader', 'angular2-template-loader'],
+                loaders: ['angular2-template-loader', 'awesome-typescript-loader'],
                 include: [new RegExp(clientFolder), /test/, /fuse/]
             },
             // Support for ngux files
@@ -168,7 +168,7 @@ module.exports = {
             // Support for CSS as raw text in client folder
             {
                 test: /\.css$/,
-                loader: 'css-loader!postcss-loader',
+                loader: 'to-string-loader!css-loader!postcss-loader',
                 include: [new RegExp(clientFolder)]
             },
             // Support for CSS as injected style in node_module folder
@@ -180,7 +180,7 @@ module.exports = {
             // Support for SCSS as raw text in client folder
             {
                 test: /\.scss$/,
-                loader: 'css-loader!postcss-loader!sass-loader?sourceMap',
+                loader: 'to-string-loader!css-loader!postcss-loader!sass-loader?sourceMap',
                 include: [new RegExp(clientFolder)]
             },
             // Support for SCSS as inject style in node_module folder
@@ -287,7 +287,7 @@ module.exports = {
         new ContextReplacementPlugin(
             // The (\\|\/) piece accounts for path separators in *nix and Windows
             /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-            clientFolder// location of your src
+            clientFolder // location of your src
         ),
 
         new HtmlwebpackPlugin({
