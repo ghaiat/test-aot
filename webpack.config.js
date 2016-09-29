@@ -104,7 +104,6 @@ var pluginsProd = mode === 'prod' ? [
 
 module.exports = {
     devtool: mode === 'prod' ? 'source-map' : 'inline-source-map', //'eval-source-map',
-    debug: true,
     cache: true,
     context: path.resolve(path.join(clientFolder, 'scripts', target)), // the base directory for resolving the entry option
     entry: {
@@ -126,21 +125,18 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.ts', '.js', '.json', '.css', '.html', '.scss', '.sass'],
+        extensions: ['.ts', '.js', '.json', '.css', '.html', '.scss', '.sass'],
         alias: {
             angular2: path.resolve('./node_modules/angular2'),
             rxjs: path.resolve('./node_modules/rxjs')
         }
     },
-    postcss: function() {
-        return [autoprefixer];
-    },
     module: {
-        preLoaders: [{
-            test: /\.ts$/,
-            loader: 'tslint-loader',
-            exclude: [/node_modules/]
-        }],
+        // preLoaders: [{
+        //     test: /\.ts$/,
+        //     loader: 'tslint-loader',
+        //     exclude: [/node_modules/]
+        // }],
         loaders: [
             // A special ts loader case for node_modules so we can ignore errors
             {
@@ -183,14 +179,12 @@ module.exports = {
             {
                 test: /\.scss$/,
                 loader: 'css-loader!postcss-loader!sass-loader?sourceMap',
-                cacheable: true,
                 include: [new RegExp(clientFolder)]
             },
             // Support for SCSS as inject style in node_module folder
             {
                 test: /\.scss$/,
                 loader: 'style-loader!css-loader!postcss-loader!sass-loader?sourceMap',
-                cacheable: true,
                 include: [/node_modules/]
             },
             // Support for SCSS as raw text in client folder
@@ -198,7 +192,6 @@ module.exports = {
                 test: /\.sass$/,
                 // Passing indentedSyntax query param to node-sass
                 loader: 'css-loader!postcss-loader!sass-loader?indentedSyntax&sourceMap',
-                cacheable: true,
                 include: [new RegExp(clientFolder)]
             },
             // Support for SCSS as inject style in node_module folder
@@ -206,7 +199,6 @@ module.exports = {
                 test: /\.sass$/,
                 // Passing indentedSyntax query param to node-sass
                 loader: 'style-loader!css-loader!postcss-loader!sass-loader?indentedSyntax&sourceMap',
-                cacheable: true,
                 include: [/node_modules/]
             },
             // support for .html as raw text
@@ -233,15 +225,7 @@ module.exports = {
             /reflect-metadata/
         ]
     },
-    sassLoader: {
-        includePaths: [
-            path.resolve(__dirname, './node_modules/ionicons/dist/scss')
-        ]
-    },
-    tslint: {
-        emitErrors: false,
-        failOnHint: false
-    },
+
     devServer: {
         historyApiFallback: true,
         hot: true,
@@ -256,6 +240,23 @@ module.exports = {
         outputPath: distFolder
     },
     plugins: [
+        new webpack.LoaderOptionsPlugin({
+            debug: true,
+            options: {
+                tslint: {
+                    emitErrors: false,
+                    failOnHint: false
+                },
+                sassLoader: {
+                    includePaths: [
+                        path.resolve(__dirname, './node_modules/ionicons/dist/scss')
+                    ]
+                },
+                postcss: function() {
+                    return [autoprefixer];
+                }
+            }
+        }),
         new webpack.DefinePlugin({
             CONFIG_MODE: JSON.stringify(mode),
             CONFIG_HMR: process.argv.join('').indexOf('hot') > -1,
