@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'main',
-    styleUrls: ['./main.component.scss'],
+    styleUrls: ['./main.component.css'],
     templateUrl: './main.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
