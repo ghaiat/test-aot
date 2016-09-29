@@ -1,13 +1,15 @@
 'use strict';
 var path = require('path');
 var fs = require('fs');
-var webpack = require('webpack');
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var ChangeModePlugin = require('./plugins/ChangeModePlugin');
-var autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+const HtmlwebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+const ChangeModePlugin = require('./plugins/ChangeModePlugin');
+const ContextReplacementPlugin = webpack.ContextReplacementPlugin;
+const autoprefixer = require('autoprefixer');
+
 var DEFAULT_TARGET = 'app';
 var target = process.env.TARGET || DEFAULT_TARGET;
 var port = process.env.PORT || 5000;
@@ -282,6 +284,12 @@ module.exports = {
         new CommonsChunkPlugin({
             name: ['bundle', 'vendor', 'polyfills']
         }),
+        new ContextReplacementPlugin(
+            // The (\\|\/) piece accounts for path separators in *nix and Windows
+            /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+            clientFolder// location of your src
+        ),
+
         new HtmlwebpackPlugin({
             title: 'App - ' + target,
             baseUrl: '/',
