@@ -174,7 +174,7 @@ module.exports = {
             // Support for CSS as injected style in node_module folder
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader!postcss-loader',
+                loader: 'to-string-loader!css-loader!postcss-loader',
                 include: [/node_modules/]
             },
             // Support for SCSS as raw text in client folder
@@ -186,14 +186,14 @@ module.exports = {
             // Support for SCSS as inject style in node_module folder
             {
                 test: /\.scss$/,
-                loader: 'style-loader!css-loader!postcss-loader!sass-loader?sourceMap',
+                loader: 'to-string-loader!css-loader!postcss-loader!sass-loader?sourceMap',
                 include: [/node_modules/]
             },
             // Support for SCSS as raw text in client folder
             {
                 test: /\.sass$/,
                 // Passing indentedSyntax query param to node-sass
-                loader: 'css-loader!postcss-loader!sass-loader?indentedSyntax&sourceMap',
+                loader: 'to-string-loader!css-loader!postcss-loader!sass-loader?indentedSyntax&sourceMap',
                 include: [new RegExp(clientFolder)]
             },
             // Support for SCSS as inject style in node_module folder
@@ -254,6 +254,7 @@ module.exports = {
                         path.resolve(__dirname, './node_modules/ionicons/dist/scss')
                     ]
                 },
+                context: '/',
                 postcss: function() {
                     return [autoprefixer];
                 }
