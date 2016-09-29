@@ -15,7 +15,7 @@
         "noImplicitReturns": false,
         "noImplicitUseStrict": false,
         "noFallthroughCasesInSwitch": true,
-        "outDir": "./dist/unbundled-aot",
+        "outDir": "./dist/app/unbundled-aot",
         "typeRoots": [
             "node_modules/@types",
             "typings"

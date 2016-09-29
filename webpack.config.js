@@ -15,6 +15,8 @@ var target = process.env.TARGET || DEFAULT_TARGET;
 var port = process.env.PORT || 5000;
 var host = process.env.HOST || 'localhost';
 var mode = process.env.MODE || 'dev';
+var aot = process.env.AOT || false;
+
 var clientFolder = require('./.yo-rc.json')['generator-mcfly-ng2'].clientFolder;
 var distFolder = path.join('dist', target, mode);
 
@@ -110,8 +112,8 @@ module.exports = {
     context: path.resolve(path.join(clientFolder, 'scripts', target)), // the base directory for resolving the entry option
     entry: {
         'polyfills': './polyfills',
-        'vendor': './vendor', // clientFolder + '/scripts/' + target  + '/vendor', // path.resolve(path.join('.', clientFolder, 'scripts', target, 'vendor')),
-        'bundle': './bootstrap' //clientFolder + '/scripts/' + target  + '/bootstrap',  // path.resolve(path.join('.', clientFolder, 'scripts', target, 'bootstrap'))
+        //'vendor': './vendor', // clientFolder + '/scripts/' + target  + '/vendor', // path.resolve(path.join('.', clientFolder, 'scripts', target, 'vendor')),
+        'bundle': aot ? './bootstrap.aot' : './bootstrap' //clientFolder + '/scripts/' + target  + '/bootstrap',  // path.resolve(path.join('.', clientFolder, 'scripts', target, 'bootstrap'))
     },
 
     output: {
@@ -143,11 +145,11 @@ module.exports = {
             // A special ts loader case for node_modules so we can ignore errors
             {
                 test: /\.ts$/,
-                loaders: ['angular2-template-loader', 'awesome-typescript-loader'],
+                loaders: aot ? ['awesome-typescript-loader'] : ['angular2-template-loader', 'awesome-typescript-loader'],
                 include: [/node_modules/]
             }, {
                 test: /\.ts$/,
-                loaders: ['angular2-template-loader', 'awesome-typescript-loader'],
+                loaders: aot ? ['awesome-typescript-loader'] : ['angular2-template-loader', 'awesome-typescript-loader'],
                 include: [new RegExp(clientFolder), /test/, /fuse/]
             },
             // Support for ngux files

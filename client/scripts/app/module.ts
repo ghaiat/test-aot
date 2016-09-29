@@ -2,9 +2,7 @@ import { NgModule, enableProdMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-if (CONFIG_MODE === 'prod') {
-	enableProdMode();
-}
+enableProdMode();
 
 import { MainComponent } from './components/main/main.component';
 @NgModule({

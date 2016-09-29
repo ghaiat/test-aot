@@ -94,7 +94,10 @@
         "check:already:built": "if [ ! -d dist/${TARGET-app}/${MODE-dev}/ ]; then npm run error:unbuilt; fi",
         "check:ionic:platform": "if [ -z ${PLATFORM} ]; then error:missing:platform; elif [ ! -d dist/${TARGET-app}/${MODE-dev}/platforms/${PLATFORM} ]; then (OPERATION=add npm run ionic:platform); fi",
 
-        "ngc": "ngc -p tsconfig.aot.json --locale=en-US"
+        "ngc": "ngc -p tsconfig.aot.json --locale=en-US",
+        "build:all": "npm run build && npm run build:aot && npm run rollup:aot",
+        "build:aot": "ngc -p tsconfig.aot.json --locale=en-US && AOT=true npm run build ",
+        "rollup:aot": "ngc -p tsconfig.aot.json --locale=en-US && .\/node_modules\/.bin\/rollup -c rollup.js"
     },
     "dependencies": {
         "@angular/common": "2.0.0",
