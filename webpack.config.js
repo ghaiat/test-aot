@@ -271,14 +271,13 @@ module.exports = {
 
         new ForkCheckerPlugin(),
 
-        new webpack.optimize.OccurenceOrderPlugin(true),
         // make sure we can import the chunks on node or fuse
-        new webpack.BannerPlugin(
-            'if (typeof window === "undefined") {window = global;}\n' +
-            'if (typeof window["webpackJsonp"]) {webpackJsonp = window.webpackJsonp;}\n', {
-                raw: true,
-                entryOnly: true
-            }),
+        new webpack.BannerPlugin({
+            banner: 'if (typeof window === "undefined") {window = global;}\n' +
+                'if (typeof window["webpackJsonp"]) {webpackJsonp = window.webpackJsonp;}\n',
+            raw: true,
+            entryOnly: true
+        }),
         new CommonsChunkPlugin({
             name: ['bundle', 'vendor', 'polyfills']
         }),
